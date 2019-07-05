@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 01, 2019 at 06:23 PM
+-- Generation Time: Jul 05, 2019 at 06:21 AM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.7
 
@@ -119,6 +119,14 @@ CREATE TABLE `permissions` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `permissions`
+--
+
+INSERT INTO `permissions` (`id`, `name`, `slug`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'blog.add_new_blog', 'blogadd-new-blog', NULL, '2019-07-04 22:10:56', '2019-07-04 22:10:56'),
+(2, 'blog.update_blog', 'blogupdate-blog', NULL, '2019-07-04 22:15:53', '2019-07-04 22:15:53');
+
 -- --------------------------------------------------------
 
 --
@@ -147,6 +155,16 @@ CREATE TABLE `roles` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `name`, `slug`, `description`, `created_at`, `updated_at`) VALUES
+(1, 'Super Admin', 'super-admin', 'for development purpose(Application super user)', '2019-07-04 21:54:17', '2019-07-04 22:01:44'),
+(2, 'Admin', 'admin', 'for application admin', '2019-07-04 21:54:35', '2019-07-04 22:01:19'),
+(3, 'Subscriber', 'subscriber', NULL, '2019-07-04 21:54:58', '2019-07-04 21:54:58'),
+(4, 'Default', 'default', 'defaul role for any newly registered user', '2019-07-04 21:55:06', '2019-07-04 22:00:57');
 
 -- --------------------------------------------------------
 
@@ -187,7 +205,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `userid`, `password`, `phone`, `last_login`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Tahmidur', 'Rahman', 'tahmidrana@gmail.com', 'tahmidrana', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', '01676470847', '2019-07-01 08:51:03', 1, '2019-06-30 18:00:00', '2019-07-01 08:51:03');
+(1, 'Tahmidur', 'Rahman', 'tahmidrana@gmail.com', 'tahmidrana', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', '01676470847', '2019-07-04 21:30:43', 1, '2019-06-30 18:00:00', '2019-07-04 21:30:43');
 
 --
 -- Indexes for dumped tables
@@ -263,7 +281,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `menu_role`
@@ -281,7 +299,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `permission_role`
@@ -293,7 +311,7 @@ ALTER TABLE `permission_role`
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `role_user`
