@@ -34,9 +34,9 @@ class PermissionController extends Controller
         $permission->description = $request->description;
 
         if($permission->save()) {
-            return redirect('/admin_console/permission')->with('success', 'Permission Saved Successfully');
+            return redirect('/permission')->with('success', 'Permission Saved Successfully');
         } else {
-            return redirect('/admin_console/permission')->with('error', 'Permission Save Failed');
+            return redirect('/permission')->with('error', 'Permission Save Failed');
         }
     }
 
@@ -52,18 +52,18 @@ class PermissionController extends Controller
         $permission->description = $request->description;
 
         if($permission->save()) {
-            return redirect('/admin_console/permission')->with('success', 'Permission Updated Successfully');
+            return redirect('/permission')->with('success', 'Permission Updated Successfully');
         } else {
-            return redirect('/admin_console/permission')->with('error', 'Permission Update Failed');
+            return redirect('/permission')->with('error', 'Permission Update Failed');
         }
     }
 
     public function destroy(Permission $permission)
     {
         if($permission->delete()) {
-            return redirect('admin_console/permission')->with('success', 'Permission Deleted Successfully');
+            return redirect('/permission')->with('success', 'Permission Deleted Successfully');
         } else {
-            return redirect("admin_console/permission")->with('error', 'Permission Delete Failed');
+            return redirect("/permission")->with('error', 'Permission Delete Failed');
         }
     }
 }

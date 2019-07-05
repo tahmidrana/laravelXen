@@ -8,16 +8,17 @@ Route::post('/login', 'Auth\LoginController@post_login');
 Route::group(['middleware'=> 'auth'], function(){
 	Route::get('/', 'HomeController@index');
 
-	Route::prefix('admin_console')->group(function () {
-		//Menu
-		Route::resource('/menu', 'MenuController');
+	//Menu
+	Route::resource('/menu', 'MenuController');
 
-		//Role
-		Route::resource('/role', 'RoleController');	
+	//Role
+	Route::resource('/role', 'RoleController');
+	Route::get('/role/{role}/config', 'RoleController@role_config');
+	Route::post('/role/{role}/update_role_menu', 'RoleController@update_role_menu');
+	Route::post('/role/{role}/update_role_permission', 'RoleController@update_role_permission');
 
-		//Role
-		Route::resource('/permission', 'PermissionController');	    
-	});
+	//Role
+	Route::resource('/permission', 'PermissionController');	    
 
 
 	//Logout User

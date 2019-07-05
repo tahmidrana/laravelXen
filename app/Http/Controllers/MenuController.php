@@ -38,9 +38,9 @@ class MenuController extends Controller
         $menu->description = $request->description;
 
         if($menu->save()) {
-            return redirect('/admin_console/menu')->with('success', 'Menu Saved Successfully');
+            return redirect('/menu')->with('success', 'Menu Saved Successfully');
         } else {
-            return redirect('/admin_console/menu')->with('error', 'Menu Save Failed');
+            return redirect('/menu')->with('error', 'Menu Save Failed');
         }
     }
 
@@ -61,18 +61,18 @@ class MenuController extends Controller
         $menu->description = $request->description;
 
         if($menu->save()) {
-            return redirect('/admin_console/menu')->with('success', 'Menu Updated Successfully');
+            return redirect('/menu')->with('success', 'Menu Updated Successfully');
         } else {
-            return redirect('/admin_console/menu')->with('error', 'Menu Updated Failed');
+            return redirect('/menu')->with('error', 'Menu Updated Failed');
         }
     }
 
     public function destroy(Menu $menu)
     {
         if($menu->delete()) {
-            return redirect('admin_console/menu')->with('success', 'Menu Deleted Successfully');
+            return redirect('/menu')->with('success', 'Menu Deleted Successfully');
         } else {
-            return redirect("admin_console/menu")->with('error', 'Menu Delete Failed');
+            return redirect("/menu")->with('error', 'Menu Delete Failed');
         }
     }
 }

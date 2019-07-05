@@ -44,14 +44,14 @@
                     <td style="{{ !$menu->parent_menu ? 'border-left:4px solid #e67e22' : '' }};">{{ $menu->title }}</td>
                     <td>{{ $menu->menu_url ? $menu->menu_url : 'N/A' }}</td>
                     <td>{{ $menu->parent_menu ? $menu->parent_menu : 'N/A' }}</td>
-                    <td><a href="javascript:;" onclick="jQuery('#update_menu_{{ $menu->id }}').modal('show', {backdrop: 'fade'});" class="btn btn-blue btn-sm btn-icon">Edit</a> <a href="javascript:;" class="btn btn-red btn-sm btn-icon" onclick="$(this).find('#del_form').submit();">Delete <form id="del_form" action="{{ url('admin_console/menu/'.$menu->id) }}" method="POST" onsubmit="return confirm_menu_delete()">@method('DELETE')
+                    <td><a href="javascript:;" onclick="jQuery('#update_menu_{{ $menu->id }}').modal('show', {backdrop: 'fade'});" class="btn btn-blue btn-sm btn-icon">Edit</a> <a href="javascript:;" class="btn btn-red btn-sm btn-icon" onclick="$(this).find('#del_form').submit();">Delete <form id="del_form" action="{{ url('menu/'.$menu->id) }}" method="POST" onsubmit="return confirm_menu_delete()">@method('DELETE')
                         @csrf</form></a> </td>
                 </tr>
 
                 <div class="modal fade" id="update_menu_{{ $menu->id }}">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form action="{{ url('admin_console/menu/'.$menu->id) }}" method="POST" class="validate" role="form">
+                            <form action="{{ url('menu/'.$menu->id) }}" method="POST" class="validate" role="form">
                                 @method('PUT')
                                 @csrf
                                 <div class="modal-header">
@@ -111,7 +111,7 @@
     <div class="modal fade" id="add_menu">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ url('admin_console/menu') }}" method="POST" class="validate" role="form" id="form1">
+                <form action="{{ url('menu') }}" method="POST" class="validate" role="form" id="form1">
                     @csrf
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

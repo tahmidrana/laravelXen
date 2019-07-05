@@ -38,7 +38,7 @@
         </header>
         
         <?php //echo $my_nav_menu; ?>
-        <?php $main_menus = \App\Models\Menu::where('parent_menu', '=', NULL)->get(); ?>
+        <?php $main_menus = \App\Models\Menu::where('parent_menu', '=', NULL)->orderBy('menu_order')->get(); ?>
         <ul id="main-menu" class="main-menu">
         @foreach($main_menus as $menu)
             <li class="{{ strtolower($menu->title) == strtolower(session('main_menu')) ? 'active opened active' : '' }}">
@@ -46,7 +46,7 @@
                     <i class="{{ $menu->menu_icon }}"></i>
                     <span class="title">{{ $menu->title }}</span>
                 </a>
-                <?php $sub_menu1 = \App\Models\Menu::where('parent_menu', '=', $menu->id); ?>
+                <?php $sub_menu1 = \App\Models\Menu::where('parent_menu', '=', $menu->id)->orderBy('menu_order'); ?>
                 @if($sub_menu1->count())
                 <ul>
                     @foreach($sub_menu1->get() as $sub1)

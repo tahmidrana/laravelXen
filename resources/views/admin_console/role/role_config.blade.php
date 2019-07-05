@@ -46,7 +46,8 @@
 
     </div>
     <div class="panel-body">
-        <form action="{{ url('/role/update_role/'.$role_data->id) }}" method="POST" role="form" role="form" id="form1" class="validate">
+        <form action="{{ url('role/'.$role_data->id) }}" method="POST" role="form" role="form" class="validate">
+            @method('PUT')
             @csrf
             <div class="form-group">
                 <label for="">Role Name</label>
@@ -54,7 +55,7 @@
             </div>
             <div class="form-group">
                 <label for="">Slug</label>
-                <input type="text" name="slug" id="slug" class="form-control" value="{{ $role_data->slug }}" required>
+                <textarea name="description" id="description" cols="30" rows="3" class="form-control">{{ $role_data->description }}</textarea>
             </div>
             <div class="form-group">
                 <input type="submit" name="save_group_form" id="save_group_form" value="Save Role Info" class="btn btn-primary">
@@ -82,7 +83,7 @@
     </div>
     <div class="panel-body">
         <div class="menu-data">
-            <form role="form" class="form-horizontal" action='{{ url("/role/{$role_data->id}/update_role_menu/") }}'' method="POST">
+            <form role="form" class="form-horizontal" action='{{ url("role/{$role_data->id}/update_role_menu/") }}'' method="POST">
                 @csrf
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="tagsinput-1"></label>
@@ -109,7 +110,7 @@
                         <select class="form-control" multiple="multiple" id="group_menu_list" name="group_menu_list[]">
                             @foreach($menu_list as $menu)
                                 <option value="{{ $menu->id }}" style="{{ !$menu->parent_menu ? 'border-left: 2px solid #e67e22' : '' }};" 
-                                    {{ $menu->role_id ? 'selected' : '' }}>{{ $menu->title }}</option>
+                                    {{ $menu->role_id == $role_data->id ? 'selected' : '' }}>{{ $menu->title }}</option>
                             @endforeach
                         </select>
 
@@ -168,7 +169,7 @@
                         </script>
                         <select class="form-control" multiple="multiple" id="group_permission_list" name="group_permission_list[]">
                             @foreach($perm_list as $perm)
-                                <option value="{{ $perm->id }}" {{ $perm->role_id ? 'selected' : '' }}>{{ $perm->slug }}</option>
+                                <option value="{{ $perm->id }}" {{ $perm->role_id==$role_data->id ? 'selected' : '' }}>{{ $perm->slug }}</option>
                             @endforeach
                         </select>
 
