@@ -30,4 +30,9 @@ class User extends Authenticatable
     {
     	return $this->first_name.' '.$this->last_name;
     }
+
+    public function is_superuser()
+    {
+    	return $this->is_superuser ? TRUE : FALSE;
+    }
 }

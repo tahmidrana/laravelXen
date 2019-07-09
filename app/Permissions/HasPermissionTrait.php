@@ -1,4 +1,5 @@
 <?php
+/* For one user can have just one role */
 namespace App\Permissions;
 
 use App\Models\Permission;
@@ -6,39 +7,27 @@ use App\Models\Role;
 
 trait HasPermissionTrait {
 
-	public function roles()
+	public function role()
 	{
-		return $this->belongsToMany(Role::class, 'role_user');
+		return $this->belongsTo(Role::class, 'role_id');
 	}
 
-	public function hasRole(... $roles)
+	public function is_admin()
 	{
-		foreach ($roles as $role) {
-			if($this->roles->contains('slug', $role)) {
-				return TRUE;
-			}
-		}
-		return FALSE;
+		return $this->role->slug === 'admin';
 	}
 
 	public function hasPermissionTo($permission)
 	{
-		return $this->hasPermissionThroughRole($permission);
-	}
-
-	public function hasPermissionThroughRole($permission)
-	{
-		$permission = Permission::where('slug', $permission);
-		if($permission->count() > 0) {
-			$permission = $permission->first();
-			foreach($permission->roles as $role) {
-				if($this->roles->contains($role)) {
+		$user_permissions = $this->role->permissions;
+		if($user_permissions->count()) {
+			foreach($user_permissions as $perm) {
+				if($perm->slug === $permission) {
 					return TRUE;
 				}
 			}
-			return FALSE;	
+			return FALSE;			
 		}
-		return FALSE;		
+		return FALSE;
 	}
-
 }

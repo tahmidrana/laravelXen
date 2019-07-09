@@ -36,8 +36,7 @@
 
 
         </header>
-        
-        <?php //echo $my_nav_menu; ?>
+
         <?php $main_menus = \App\Models\Menu::where('parent_menu', '=', NULL)->orderBy('menu_order')->get(); ?>
         <ul id="main-menu" class="main-menu">
         @foreach($main_menus as $menu)

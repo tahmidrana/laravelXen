@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 05, 2019 at 06:21 AM
+-- Generation Time: Jul 09, 2019 at 07:35 PM
 -- Server version: 10.1.34-MariaDB
 -- PHP Version: 7.2.7
 
@@ -45,12 +45,12 @@ CREATE TABLE `menus` (
 --
 
 INSERT INTO `menus` (`id`, `title`, `menu_url`, `menu_icon`, `description`, `menu_order`, `parent_menu`, `created_at`, `updated_at`) VALUES
-(1, 'Home', NULL, 'fa-home', 'Home menu', 1, NULL, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
+(1, 'Home', '/', 'fa-home', 'Home menu', 1, NULL, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
 (2, 'Admin Console', NULL, 'fa-cog', 'admin console related all menu', 30, NULL, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
-(3, 'Menu', '/admin_console/menu', NULL, NULL, 1, 2, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
-(4, 'Role', '/admin_console/role', NULL, NULL, 2, 2, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
-(5, 'Permission', '/admin_console/permission', NULL, NULL, 3, 2, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
-(6, 'User', '/admin_console/user', NULL, NULL, 4, 2, '2019-06-30 18:00:00', '2019-06-30 18:00:00');
+(3, 'Menu', '/menu', NULL, NULL, 1, 2, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
+(4, 'Role', '/role', NULL, NULL, 3, 2, '2019-06-30 18:00:00', '2019-07-04 23:49:27'),
+(5, 'Permission', '/permission', NULL, NULL, 2, 2, '2019-06-30 18:00:00', '2019-07-04 23:49:18'),
+(6, 'User', '/user', NULL, NULL, 4, 2, '2019-06-30 18:00:00', '2019-06-30 18:00:00');
 
 -- --------------------------------------------------------
 
@@ -65,6 +65,13 @@ CREATE TABLE `menu_role` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `menu_role`
+--
+
+INSERT INTO `menu_role` (`id`, `menu_id`, `role_id`, `created_at`, `updated_at`) VALUES
+(7, 1, 4, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -90,7 +97,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (9, '2019_07_01_133924_create_users_table', 1),
 (10, '2019_07_01_141253_create_role_user_table', 2),
 (11, '2019_07_01_141331_create_menu_role_table', 2),
-(12, '2019_07_01_141344_create_permission_role_table', 2);
+(12, '2019_07_01_141344_create_permission_role_table', 2),
+(13, '2019_07_09_161704_add_is_superuser_to_users_table', 3),
+(14, '2019_07_09_164712_add_role_id_to_users_table', 4);
 
 -- --------------------------------------------------------
 
@@ -141,6 +150,14 @@ CREATE TABLE `permission_role` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `permission_role`
+--
+
+INSERT INTO `permission_role` (`id`, `role_id`, `permission_id`, `created_at`, `updated_at`) VALUES
+(1, 4, 1, '2019-07-08 18:00:00', NULL),
+(2, 4, 2, '2019-07-08 18:00:00', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -161,10 +178,9 @@ CREATE TABLE `roles` (
 --
 
 INSERT INTO `roles` (`id`, `name`, `slug`, `description`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', 'super-admin', 'for development purpose(Application super user)', '2019-07-04 21:54:17', '2019-07-04 22:01:44'),
 (2, 'Admin', 'admin', 'for application admin', '2019-07-04 21:54:35', '2019-07-04 22:01:19'),
 (3, 'Subscriber', 'subscriber', NULL, '2019-07-04 21:54:58', '2019-07-04 21:54:58'),
-(4, 'Default', 'default', 'defaul role for any newly registered user', '2019-07-04 21:55:06', '2019-07-04 22:00:57');
+(4, 'Default', 'default', 'defaul role for any newly registered user', '2019-07-04 21:55:06', '2019-07-04 23:22:21');
 
 -- --------------------------------------------------------
 
@@ -179,6 +195,13 @@ CREATE TABLE `role_user` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `role_user`
+--
+
+INSERT INTO `role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 2, 2, '2019-07-08 18:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -196,6 +219,8 @@ CREATE TABLE `users` (
   `phone` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_login` timestamp NULL DEFAULT NULL,
   `status` tinyint(4) NOT NULL DEFAULT '1',
+  `is_superuser` tinyint(4) NOT NULL DEFAULT '0',
+  `role_id` int(10) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -204,8 +229,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `userid`, `password`, `phone`, `last_login`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Tahmidur', 'Rahman', 'tahmidrana@gmail.com', 'tahmidrana', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', '01676470847', '2019-07-04 21:30:43', 1, '2019-06-30 18:00:00', '2019-07-04 21:30:43');
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `userid`, `password`, `phone`, `last_login`, `status`, `is_superuser`, `role_id`, `created_at`, `updated_at`) VALUES
+(1, 'Tahmidur', 'Rahman', 'tahmidrana@gmail.com', 'tahmidrana', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', '01676470847', '2019-07-09 10:03:42', 1, 0, 4, '2019-06-30 18:00:00', '2019-07-09 10:03:42'),
+(2, 'Admin', NULL, NULL, 'admin', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', NULL, '2019-07-09 10:05:47', 1, 0, 2, '2019-07-08 18:00:00', '2019-07-09 10:05:47'),
+(3, 'Super Admin', NULL, NULL, 'super_admin', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', NULL, NULL, 1, 1, NULL, '2019-07-08 18:00:00', NULL);
 
 --
 -- Indexes for dumped tables
@@ -271,7 +298,8 @@ ALTER TABLE `role_user`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_userid_unique` (`userid`);
+  ADD UNIQUE KEY `users_userid_unique` (`userid`),
+  ADD KEY `users_role_id_foreign` (`role_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -287,43 +315,43 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `menu_role`
 --
 ALTER TABLE `menu_role`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `permissions`
 --
 ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `permission_role`
 --
 ALTER TABLE `permission_role`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `roles`
 --
 ALTER TABLE `roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `role_user`
 --
 ALTER TABLE `role_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -355,6 +383,12 @@ ALTER TABLE `permission_role`
 ALTER TABLE `role_user`
   ADD CONSTRAINT `role_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`),
   ADD CONSTRAINT `role_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
+
+--
+-- Constraints for table `users`
+--
+ALTER TABLE `users`
+  ADD CONSTRAINT `users_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
