@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.2
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 09, 2019 at 07:35 PM
--- Server version: 10.1.34-MariaDB
--- PHP Version: 7.2.7
+-- Host: 127.0.0.1:3306
+-- Generation Time: Jul 10, 2019 at 05:30 PM
+-- Server version: 5.7.23
+-- PHP Version: 5.6.38
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -28,8 +28,9 @@ SET time_zone = "+00:00";
 -- Table structure for table `menus`
 --
 
-CREATE TABLE `menus` (
-  `id` int(10) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `menus`;
+CREATE TABLE IF NOT EXISTS `menus` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `title` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `menu_url` text COLLATE utf8mb4_unicode_ci,
   `menu_icon` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -37,8 +38,10 @@ CREATE TABLE `menus` (
   `menu_order` tinyint(4) NOT NULL DEFAULT '0',
   `parent_menu` int(10) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `menus_parent_menu_foreign` (`parent_menu`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `menus`
@@ -58,13 +61,17 @@ INSERT INTO `menus` (`id`, `title`, `menu_url`, `menu_icon`, `description`, `men
 -- Table structure for table `menu_role`
 --
 
-CREATE TABLE `menu_role` (
-  `id` int(10) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `menu_role`;
+CREATE TABLE IF NOT EXISTS `menu_role` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `menu_id` int(10) UNSIGNED NOT NULL,
   `role_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `menu_role_menu_id_foreign` (`menu_id`),
+  KEY `menu_role_role_id_foreign` (`role_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `menu_role`
@@ -79,11 +86,13 @@ INSERT INTO `menu_role` (`id`, `menu_id`, `role_id`, `created_at`, `updated_at`)
 -- Table structure for table `migrations`
 --
 
-CREATE TABLE `migrations` (
-  `id` int(10) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `migrations`;
+CREATE TABLE IF NOT EXISTS `migrations` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -107,10 +116,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Table structure for table `password_resets`
 --
 
-CREATE TABLE `password_resets` (
+DROP TABLE IF EXISTS `password_resets`;
+CREATE TABLE IF NOT EXISTS `password_resets` (
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -119,14 +130,16 @@ CREATE TABLE `password_resets` (
 -- Table structure for table `permissions`
 --
 
-CREATE TABLE `permissions` (
-  `id` int(10) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `permissions`;
+CREATE TABLE IF NOT EXISTS `permissions` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `permissions`
@@ -142,13 +155,17 @@ INSERT INTO `permissions` (`id`, `name`, `slug`, `description`, `created_at`, `u
 -- Table structure for table `permission_role`
 --
 
-CREATE TABLE `permission_role` (
-  `id` int(10) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `permission_role`;
+CREATE TABLE IF NOT EXISTS `permission_role` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `role_id` int(10) UNSIGNED NOT NULL,
   `permission_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `permission_role_role_id_foreign` (`role_id`),
+  KEY `permission_role_permission_id_foreign` (`permission_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `permission_role`
@@ -164,14 +181,16 @@ INSERT INTO `permission_role` (`id`, `role_id`, `permission_id`, `created_at`, `
 -- Table structure for table `roles`
 --
 
-CREATE TABLE `roles` (
-  `id` int(10) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `slug` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `description` text COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `roles`
@@ -188,13 +207,17 @@ INSERT INTO `roles` (`id`, `name`, `slug`, `description`, `created_at`, `updated
 -- Table structure for table `role_user`
 --
 
-CREATE TABLE `role_user` (
-  `id` int(10) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `role_user`;
+CREATE TABLE IF NOT EXISTS `role_user` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `role_id` int(10) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `role_user_role_id_foreign` (`role_id`),
+  KEY `role_user_user_id_foreign` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `role_user`
@@ -209,8 +232,9 @@ INSERT INTO `role_user` (`id`, `role_id`, `user_id`, `created_at`, `updated_at`)
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `first_name` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_name` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(150) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -222,136 +246,20 @@ CREATE TABLE `users` (
   `is_superuser` tinyint(4) NOT NULL DEFAULT '0',
   `role_id` int(10) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_userid_unique` (`userid`),
+  KEY `users_role_id_foreign` (`role_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `userid`, `password`, `phone`, `last_login`, `status`, `is_superuser`, `role_id`, `created_at`, `updated_at`) VALUES
-(1, 'Tahmidur', 'Rahman', 'tahmidrana@gmail.com', 'tahmidrana', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', '01676470847', '2019-07-09 10:03:42', 1, 0, 4, '2019-06-30 18:00:00', '2019-07-09 10:03:42'),
-(2, 'Admin', NULL, NULL, 'admin', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', NULL, '2019-07-09 10:05:47', 1, 0, 2, '2019-07-08 18:00:00', '2019-07-09 10:05:47'),
+(1, 'Tahmidur', 'Rahman', 'tahmidrana@gmail.com', 'tahmidrana', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', '01676470847', '2019-07-10 04:30:50', 1, 0, 4, '2019-06-30 18:00:00', '2019-07-10 04:30:50'),
+(2, 'Admin', NULL, NULL, 'admin', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', NULL, '2019-07-10 04:34:05', 1, 0, 2, '2019-07-08 18:00:00', '2019-07-10 04:34:05'),
 (3, 'Super Admin', NULL, NULL, 'super_admin', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', NULL, NULL, 1, 1, NULL, '2019-07-08 18:00:00', NULL);
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `menus`
---
-ALTER TABLE `menus`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `menus_parent_menu_foreign` (`parent_menu`);
-
---
--- Indexes for table `menu_role`
---
-ALTER TABLE `menu_role`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `menu_role_menu_id_foreign` (`menu_id`),
-  ADD KEY `menu_role_role_id_foreign` (`role_id`);
-
---
--- Indexes for table `migrations`
---
-ALTER TABLE `migrations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `password_resets`
---
-ALTER TABLE `password_resets`
-  ADD KEY `password_resets_email_index` (`email`);
-
---
--- Indexes for table `permissions`
---
-ALTER TABLE `permissions`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `permission_role`
---
-ALTER TABLE `permission_role`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `permission_role_role_id_foreign` (`role_id`),
-  ADD KEY `permission_role_permission_id_foreign` (`permission_id`);
-
---
--- Indexes for table `roles`
---
-ALTER TABLE `roles`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `role_user`
---
-ALTER TABLE `role_user`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `role_user_role_id_foreign` (`role_id`),
-  ADD KEY `role_user_user_id_foreign` (`user_id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_userid_unique` (`userid`),
-  ADD KEY `users_role_id_foreign` (`role_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `menus`
---
-ALTER TABLE `menus`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `menu_role`
---
-ALTER TABLE `menu_role`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT for table `migrations`
---
-ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
--- AUTO_INCREMENT for table `permissions`
---
-ALTER TABLE `permissions`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `permission_role`
---
-ALTER TABLE `permission_role`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT for table `roles`
---
-ALTER TABLE `roles`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `role_user`
---
-ALTER TABLE `role_user`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables

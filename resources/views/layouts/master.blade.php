@@ -66,7 +66,7 @@
                         <h3>
                             <a href="extra-profile.html">
                                 @if(Auth::user())
-                                {{ Auth::user()->first_name.' '.Auth::user()->last_name }}
+                                {{ Auth::user()->getFullName() }}
                                 @else
                                 Anonymous
                                 @endif
@@ -77,7 +77,11 @@
                         </h3>
 
                         <p class="user-title">
-                            Admin
+                        @if(Auth::user())
+                        {{ Auth::user()->role->name }}
+                        @else
+                        Anonymous
+                        @endif
                         </p>
 
                         <div class="user-links">

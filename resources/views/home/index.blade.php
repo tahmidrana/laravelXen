@@ -30,9 +30,15 @@ Dashboard
     </div>
     <?php
         $user = Auth::user();
+        //dd($user);
+        //echo $user->role->name;
+        //$user = \App\Models\User::find(1);
         //echo $user->hasRole('admin') ? 'Yes' : 'No';
-        //echo $user->hasPermissionTo('post.add_post') ? 'Yes' : 'No';
-        //echo $user->can(App\Models\Permission::find(1)) ? 'Yes' : 'No';
+        echo '<br>';
+        echo $user->getFullName();
+        echo '<br>';
+        //echo $user->hasPermissionTo('blog.add_new_blog') ? 'Yes' : 'No';
+        echo $user->can(App\Models\Permission::find(1)) ? 'Yes' : 'No';
     ?>
     
 @endsection
