@@ -22,7 +22,7 @@ trait HasPermissionTrait {
 		$user_permissions = $this->role->permissions;
 		if($user_permissions->count()) {
 			foreach($user_permissions as $perm) {
-				if($perm->slug === $permission) {
+				if(strtolower($perm->slug) === strtolower($permission) || strtolower($perm->name) === strtolower($permission)) {
 					return TRUE;
 				}
 			}
