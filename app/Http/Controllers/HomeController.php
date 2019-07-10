@@ -8,7 +8,7 @@ class HomeController extends Controller
 {
     public function __construct() 
     {
-        //session(['main_menu' => 'home']);
+        session(['main_menu' => 'home']);
     }
 
     public function index()
