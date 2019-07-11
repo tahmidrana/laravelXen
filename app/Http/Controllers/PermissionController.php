@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\View;
 use App\Models\Permission;
 
 class PermissionController extends Controller
 {
     public function __construct() 
     {
-        //
+        View::share('main_menu', 'admin console');
     }
 
     public function index()

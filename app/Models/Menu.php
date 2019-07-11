@@ -13,6 +13,6 @@ class Menu extends Model
 
     public function main_menu()
     {
-    	return $this->belongsTo(\Menu::class,'parent_menu', 'id');
+    	return $this->belongsTo(\Menu::class, 'parent_menu', 'id');
     }
 }

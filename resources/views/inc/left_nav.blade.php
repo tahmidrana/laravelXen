@@ -40,7 +40,7 @@
         <?php $main_menus = \App\Models\Menu::where('parent_menu', '=', NULL)->orderBy('menu_order')->get(); ?>
         <ul id="main-menu" class="main-menu">
         @foreach($main_menus as $menu)
-            <li class="{{ $main_menu == strtolower($menu->title) ? 'active opened' : '' }}">
+            <li class="{{ isset($main_menu) && strtolower($main_menu) == strtolower($menu->title) ? 'active opened' : '' }}">
                 <a href="{{ $menu->menu_url ? $menu->menu_url : '#' }}">
                     <i class="{{ $menu->menu_icon }}"></i>
                     <span class="title">{{ $menu->title }}</span>
