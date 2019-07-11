@@ -75,9 +75,10 @@ class LoginController extends Controller
         echo json_encode($resp);
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::logout();
+        $request->session()->flush();
         //return Redirect::back();
         return redirect('/login');
     }

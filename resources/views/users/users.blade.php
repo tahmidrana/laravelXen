@@ -42,21 +42,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($users as $user)
-                <tr>
-                    <td hidden="true">{{ $user->id }}</td>
-                    <td>{{ $user->first_name.' '.$user->last_name }}</td>
-                    <td>{{ $user->username }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ Carbon\Carbon::parse($user->created_at)->toFormattedDateString() }}</td>
-                    <td><?= $user->status==1 ? '<span class="label label-success">Active</span>' : '<span class="label label-danger">Inactive</span>' ?></td>
-                    <td><a href="{{ url('users/update_user/'.$user->id) }}" class="btn btn-blue btn-sm btn-icon">Edit</a> <a href="{{ url('users/delete_user/'.$user->id) }}" onclick="return confirm_role_delete()" class="btn btn-red btn-sm btn-icon">Delete</a> <a href='{{ url("users/{$user->id}/config") }}' class="btn btn-warning btn-sm btn-icon">Config</a></td>
-                </tr>
-                @endforeach
+
                 </tbody>
             </table>
         </div>
     </div>
+
 
 @endsection
 

@@ -4,19 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Menu;
-use Exception;
+use Illuminate\Support\Facades\View;
+
 
 class MenuController extends Controller
 {
     public function __construct() 
     {
-        //
+        View::share('main_menu', 'admin console');
     }
 
     public function index()
     {
-        //session(['main_menu' => 'admin console', 'sub_menu' => 'menu']);
-        //$menu_list = Menu::with('main_menu')->orderBy('id', 'desc')->get();
+
         $menu_list = Menu::all();
         return view('admin_console.menu.menu', ['menu_list'=> $menu_list]);
     }
