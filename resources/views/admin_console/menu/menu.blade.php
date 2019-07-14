@@ -38,12 +38,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($menu_list as $menu)
+                @foreach($menu_list->get() as $menu)
                 <tr>
                     <td hidden="true">{{ $menu->id }}</td>
                     <td style="{{ !$menu->parent_menu ? 'border-left:4px solid #e67e22' : '' }};">{{ $menu->title }}</td>
                     <td>{{ $menu->menu_url ? $menu->menu_url : 'N/A' }}</td>
-                    <td>{{ $menu->parent_menu ? $menu->parent_menu : 'N/A' }}</td>
+                    <td>{{ $menu->parent_menu ? $menu->main_menu->title : 'N/A' }}</td>
                     <td><a href="javascript:;" onclick="jQuery('#update_menu_{{ $menu->id }}').modal('show', {backdrop: 'fade'});" class="btn btn-blue btn-sm btn-icon">Edit</a> <a href="javascript:;" class="btn btn-red btn-sm btn-icon" onclick="$(this).find('#del_form').submit();">Delete <form id="del_form" action="{{ url('menu/'.$menu->id) }}" method="POST" onsubmit="return confirm_menu_delete()">@method('DELETE')
                         @csrf</form></a> </td>
                 </tr>

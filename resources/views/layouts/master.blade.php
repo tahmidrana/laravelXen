@@ -78,7 +78,11 @@
 
                         <p class="user-title">
                         @if(Auth::user())
-                        {{ Auth::user()->role->name }}
+                            @if(Auth::user()->is_superuser())
+                                Super User
+                            @else
+                               {{ Auth::user()->role->name }}
+                            @endif
                         @else
                         Anonymous
                         @endif

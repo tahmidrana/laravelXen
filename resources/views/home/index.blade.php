@@ -31,6 +31,7 @@ Dashboard
     <?php
         $user = Auth::user();
         //dd($user);
+        //dd($user);
         //echo $user->role->name;
         //$user = \App\Models\User::find(1);
         //echo $user->hasRole('admin') ? 'Yes' : 'No';
@@ -38,7 +39,7 @@ Dashboard
         echo $user->getFullName();
         echo '<br>';
         //echo $user->hasPermissionTo('blog.add_new_blog') ? 'Yes' : 'No';
-        echo $user->can(App\Models\Permission::find(1)) ? 'Yes' : 'No';
+        //echo $user->can(App\Models\Permission::find(1)) ? 'Yes' : 'No';
     ?>
     
 @endsection
