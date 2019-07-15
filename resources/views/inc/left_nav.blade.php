@@ -37,18 +37,28 @@
 
         </header>
 
-        <?php $main_menus = \App\Models\Menu::where('parent_menu', '=', NULL)->orderBy('menu_order')->get(); ?>
+        <?php 
+            $role = Auth::user()->role;
+            //$menus = '';
+            if($role) {
+                $menus = $role->menus()->orderBy('menu_order')->get();
+            } else {
+                $menus = \App\Models\Menu::orderBy('menu_order')->get();
+            }
+        ?>
+        
         <ul id="main-menu" class="main-menu">
-        @foreach($main_menus as $menu)
-            <li class="{{ $main_menu == strtolower($menu->title) ? 'active opened' : '' }}">
+        @foreach($menus as $menu)
+            @if(!$menu->parent_menu)
+            <li class="{{ isset($main_menu) && strtolower($main_menu) == strtolower($menu->title) ? 'active opened' : '' }}">
                 <a href="{{ $menu->menu_url ? $menu->menu_url : '#' }}">
                     <i class="{{ $menu->menu_icon }}"></i>
                     <span class="title">{{ $menu->title }}</span>
                 </a>
-                <?php $sub_menu1 = \App\Models\Menu::where('parent_menu', '=', $menu->id)->orderBy('menu_order'); ?>
-                @if($sub_menu1->count())
+                @if($menu->child_menus->count())
                 <ul>
-                    @foreach($sub_menu1->get() as $sub1)
+                    @foreach($menus as $sub1)
+                        @if($sub1->parent_menu && $sub1->parent_menu == $menu->id)
                         {{--<li class="{{ strtolower($sub1->title) == strtolower(session('sub_menu')) ? 'active' : '' }}">
                             <a href="{{ $sub1->menu_url }}">
                                 <span class="title">{{ $sub1->title }}</span>
@@ -59,10 +69,12 @@
                                 <span class="title">{{ $sub1->title }}</span>
                             </a>
                         </li>
+                        @endif
                     @endforeach
                 </ul>
                 @endif
             </li>
+            @endif
         @endforeach
         </ul>
 
