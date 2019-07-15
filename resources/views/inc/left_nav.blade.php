@@ -54,7 +54,7 @@
                                 <span class="title">{{ $sub1->title }}</span>
                             </a>
                         </li>--}}
-                        <li {{ is_current_route(Request::path(),$sub1->menu_url) }} >
+                        <li {{ Helpers::is_current_route(Request::path(),$sub1->menu_url) }} >
                             <a href="{{ $sub1->menu_url }}">
                                 <span class="title">{{ $sub1->title }}</span>
                             </a>

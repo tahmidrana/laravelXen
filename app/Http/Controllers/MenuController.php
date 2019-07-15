@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helpers;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use Illuminate\Support\Facades\View;
@@ -61,6 +62,7 @@ class MenuController extends Controller
         $menu->description = $request->description;
 
         if($menu->save()) {
+            Helpers::addToLog('update_menu',json_encode(array('id'=>$menu->getAttribute('id'))));
             return redirect('/menu')->with('success', 'Menu Updated Successfully');
         } else {
             return redirect('/menu')->with('error', 'Menu Updated Failed');
