@@ -51,7 +51,7 @@
         @foreach($menus as $menu)
             @if(!$menu->parent_menu)
             <li class="{{ isset($main_menu) && strtolower($main_menu) == strtolower($menu->title) ? 'active opened' : '' }}">
-                <a href="{{ $menu->menu_url ? $menu->menu_url : '#' }}">
+                <a href="{{ $menu->menu_url ? url($menu->menu_url) : '#' }}">
                     <i class="{{ $menu->menu_icon }}"></i>
                     <span class="title">{{ $menu->title }}</span>
                 </a>
@@ -65,7 +65,7 @@
                             </a>
                         </li>--}}
                         <li {{ is_current_route(Request::path(),$sub1->menu_url) }} >
-                            <a href="{{ $sub1->menu_url }}">
+                            <a href="{{ $sub1->menu_url ? url($sub1->menu_url) : '#' }}">
                                 <span class="title">{{ $sub1->title }}</span>
                             </a>
                         </li>
