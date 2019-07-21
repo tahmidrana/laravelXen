@@ -12,6 +12,7 @@ class MenuController extends Controller
 {
     public function __construct() 
     {
+        $this->middleware('is_superuser');
         View::share('main_menu', 'admin console');
     }
 

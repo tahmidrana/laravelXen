@@ -6,12 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\View;
 use App\Models\Permission;
-use Illuminate\Support\Facades\View;
 
 class PermissionController extends Controller
 {
     public function __construct() 
     {
+        $this->middleware('is_superuser');
         View::share('main_menu', 'admin console');
     }
 
