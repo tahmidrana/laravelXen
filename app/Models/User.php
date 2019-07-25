@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -11,7 +12,7 @@ use App\Models\Role;
 
 class User extends Authenticatable
 {
-	use Notifiable, HasPermissionTrait;
+	use Notifiable, HasPermissionTrait, HasApiTokens;
 	
 	protected $fillable = [
         'first_name', 'last_name', 'email', 'userid', 'password',
@@ -34,5 +35,10 @@ class User extends Authenticatable
     public function is_superuser()
     {
     	return $this->is_superuser ? TRUE : FALSE;
+    }
+
+    public function findForPassport($username)
+    {
+        return $this->where('userid', $username)->first();
     }
 }
