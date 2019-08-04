@@ -6,7 +6,7 @@ use App\Helpers\Helpers;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use Illuminate\Support\Facades\View;
-
+use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
@@ -18,7 +18,11 @@ class MenuController extends Controller
 
     public function index()
     {
-        $menu_list = Menu::with('main_menu');
+        $menu_list = DB::table('menus AS a')
+                        ->select('a.*', 'b.title as parent_menu_title')
+                        ->leftJoin('menus AS b', 'a.parent_menu', '=', 'b.id')                        
+                        ->orderBy('id', 'desc')
+                        ->get();
         return view('admin_console.menu.menu', ['menu_list'=> $menu_list]);
     }
 
