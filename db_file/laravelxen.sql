@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 10, 2019 at 05:30 PM
+-- Generation Time: Aug 05, 2019 at 03:14 PM
 -- Server version: 5.7.23
 -- PHP Version: 5.6.38
 
@@ -25,6 +25,25 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `activity_logs`
+--
+
+DROP TABLE IF EXISTS `activity_logs`;
+CREATE TABLE IF NOT EXISTS `activity_logs` (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `log_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `log_details` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ip` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `agent` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_by` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `menus`
 --
 
@@ -41,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `menus` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `menus_parent_menu_foreign` (`parent_menu`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `menus`
@@ -53,7 +72,11 @@ INSERT INTO `menus` (`id`, `title`, `menu_url`, `menu_icon`, `description`, `men
 (3, 'Menu', '/menu', NULL, NULL, 1, 2, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
 (4, 'Role', '/role', NULL, NULL, 3, 2, '2019-06-30 18:00:00', '2019-07-04 23:49:27'),
 (5, 'Permission', '/permission', NULL, NULL, 2, 2, '2019-06-30 18:00:00', '2019-07-04 23:49:18'),
-(6, 'User', '/user', NULL, NULL, 4, 2, '2019-06-30 18:00:00', '2019-06-30 18:00:00');
+(6, 'User', '/user', NULL, NULL, 4, 2, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
+(7, 'Blog', NULL, 'fa-book', NULL, 2, NULL, '2019-07-14 04:15:10', '2019-07-14 04:15:10'),
+(8, 'New', NULL, NULL, NULL, 1, 7, '2019-07-14 04:15:27', '2019-07-14 04:15:27'),
+(9, 'Manage', NULL, NULL, NULL, 2, 7, '2019-07-14 04:47:46', '2019-07-14 04:47:46'),
+(10, 'Category', NULL, 'fa-cog', NULL, 3, NULL, '2019-08-04 04:53:41', '2019-08-04 04:53:41');
 
 -- --------------------------------------------------------
 
@@ -71,14 +94,19 @@ CREATE TABLE IF NOT EXISTS `menu_role` (
   PRIMARY KEY (`id`),
   KEY `menu_role_menu_id_foreign` (`menu_id`),
   KEY `menu_role_role_id_foreign` (`role_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `menu_role`
 --
 
 INSERT INTO `menu_role` (`id`, `menu_id`, `role_id`, `created_at`, `updated_at`) VALUES
-(7, 1, 4, NULL, NULL);
+(21, 1, 2, NULL, NULL),
+(22, 1, 4, NULL, NULL),
+(23, 7, 4, NULL, NULL),
+(24, 8, 4, NULL, NULL),
+(25, 9, 4, NULL, NULL),
+(26, 10, 4, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -92,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `migrations` (
   `migration` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `migrations`
@@ -108,7 +136,127 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2019_07_01_141331_create_menu_role_table', 2),
 (12, '2019_07_01_141344_create_permission_role_table', 2),
 (13, '2019_07_09_161704_add_is_superuser_to_users_table', 3),
-(14, '2019_07_09_164712_add_role_id_to_users_table', 4);
+(14, '2019_07_09_164712_add_role_id_to_users_table', 4),
+(15, '2019_07_14_114109_create_activity_logs_table', 5),
+(16, '2016_06_01_000001_create_oauth_auth_codes_table', 6),
+(17, '2016_06_01_000002_create_oauth_access_tokens_table', 6),
+(18, '2016_06_01_000003_create_oauth_refresh_tokens_table', 6),
+(19, '2016_06_01_000004_create_oauth_clients_table', 6),
+(20, '2016_06_01_000005_create_oauth_personal_access_clients_table', 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_access_tokens`
+--
+
+DROP TABLE IF EXISTS `oauth_access_tokens`;
+CREATE TABLE IF NOT EXISTS `oauth_access_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_access_tokens_user_id_index` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `oauth_access_tokens`
+--
+
+INSERT INTO `oauth_access_tokens` (`id`, `user_id`, `client_id`, `name`, `scopes`, `revoked`, `created_at`, `updated_at`, `expires_at`) VALUES
+('2e3dc7d71da88c2d6e91f6b1fa486fbf85c980d4117fd9e03880717a8558696f0d6660a9b9570655', 1, 1, 'Laravel Password Grant Client', '[]', 1, '2019-07-25 04:13:31', '2019-07-25 04:13:31', '2020-07-25 10:13:31');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_auth_codes`
+--
+
+DROP TABLE IF EXISTS `oauth_auth_codes`;
+CREATE TABLE IF NOT EXISTS `oauth_auth_codes` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `scopes` text COLLATE utf8mb4_unicode_ci,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_clients`
+--
+
+DROP TABLE IF EXISTS `oauth_clients`;
+CREATE TABLE IF NOT EXISTS `oauth_clients` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `secret` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `redirect` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `personal_access_client` tinyint(1) NOT NULL,
+  `password_client` tinyint(1) NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_clients_user_id_index` (`user_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `oauth_clients`
+--
+
+INSERT INTO `oauth_clients` (`id`, `user_id`, `name`, `secret`, `redirect`, `personal_access_client`, `password_client`, `revoked`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'LaravelXen Personal Access Client', 'IqL5S2fCWysvwvop7qOVVO3UQFtPsOYgfgB6QGpJ', 'http://localhost', 1, 0, 0, '2019-07-25 03:43:25', '2019-07-25 03:43:25'),
+(2, NULL, 'LaravelXen Password Grant Client', 'jykFQUBhWhcASUZ6zWygzZ9pwdQ5U9UNHbtRJi17', 'http://localhost', 0, 1, 0, '2019-07-25 03:43:25', '2019-07-25 03:43:25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_personal_access_clients`
+--
+
+DROP TABLE IF EXISTS `oauth_personal_access_clients`;
+CREATE TABLE IF NOT EXISTS `oauth_personal_access_clients` (
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `client_id` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_personal_access_clients_client_id_index` (`client_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `oauth_personal_access_clients`
+--
+
+INSERT INTO `oauth_personal_access_clients` (`id`, `client_id`, `created_at`, `updated_at`) VALUES
+(1, 1, '2019-07-25 03:43:25', '2019-07-25 03:43:25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `oauth_refresh_tokens`
+--
+
+DROP TABLE IF EXISTS `oauth_refresh_tokens`;
+CREATE TABLE IF NOT EXISTS `oauth_refresh_tokens` (
+  `id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `access_token_id` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `revoked` tinyint(1) NOT NULL,
+  `expires_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `oauth_refresh_tokens_access_token_id_index` (`access_token_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -257,9 +405,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `userid`, `password`, `phone`, `last_login`, `status`, `is_superuser`, `role_id`, `created_at`, `updated_at`) VALUES
-(1, 'Tahmidur', 'Rahman', 'tahmidrana@gmail.com', 'tahmidrana', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', '01676470847', '2019-07-10 04:30:50', 1, 0, 4, '2019-06-30 18:00:00', '2019-07-10 04:30:50'),
-(2, 'Admin', NULL, NULL, 'admin', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', NULL, '2019-07-10 04:34:05', 1, 0, 2, '2019-07-08 18:00:00', '2019-07-10 04:34:05'),
-(3, 'Super Admin', NULL, NULL, 'super_admin', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', NULL, NULL, 1, 1, NULL, '2019-07-08 18:00:00', NULL);
+(1, 'Tahmidur', 'Rahman', 'tahmidrana@gmail.com', 'tahmidrana', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', '01676470847', '2019-08-04 05:02:25', 1, 0, 4, '2019-06-30 18:00:00', '2019-08-04 05:02:25'),
+(2, 'Admin', NULL, NULL, 'admin', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', NULL, '2019-07-21 02:44:42', 1, 0, 2, '2019-07-08 18:00:00', '2019-07-21 02:44:42'),
+(3, 'Super Admin', NULL, NULL, 'super_admin', '$2y$10$1vAtRXDcpCdf8GuiRDjuVuh5aSPoezAlht684DKsvIpREkx8aeCEa', NULL, '2019-08-04 05:02:52', 1, 1, NULL, '2019-07-08 18:00:00', '2019-08-04 05:02:52');
 
 --
 -- Constraints for dumped tables
