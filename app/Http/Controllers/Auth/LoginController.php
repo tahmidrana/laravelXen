@@ -63,12 +63,14 @@ class LoginController extends Controller
             //$user->save();
 
             $user_menus = $this->getUserMenus($user);
+            $user_permissions = $this->getUserPermissions($user);
 
             $user_data = [
                 'name' => Auth::user()->first_name.' '.Auth::user()->last_name,
                 'user_id' => Auth::user()->id, 
                 'username' => Auth::user()->username,
-                'user_menus' => $user_menus
+                'user_menus' => $user_menus,
+                'user_perms' => $user_permissions
             ];
             session(['user_data' => $user_data]);
 
@@ -100,6 +102,22 @@ class LoginController extends Controller
             ORDER BY menu_order", [$role]);
         }
         return $menus;
+    }
+
+    public function getUserPermissions($user)
+    {
+        $role = $user->role_id;
+        $permissions = '';
+        if($user->is_superuser) {
+            //$menus = Menu::orderBy('menu_order')->get();
+            $permissions = DB::select("SELECT a.id, a.name, a.slug, a.description FROM permissions a");
+        } else {
+            $permissions = DB::select("SELECT a.id, a.name, a.slug, a.description
+            FROM permissions a
+            INNER JOIN permission_role b on a.id=b.permission_id
+            WHERE b.role_id", [$role]);
+        }
+        return $permissions;
     }
 
     public function logout(Request $request)
