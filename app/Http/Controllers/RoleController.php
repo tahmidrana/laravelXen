@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use App\Models\Role;
+use App\Models\Menu;
 
 class RoleController extends Controller
 {
@@ -72,7 +73,8 @@ class RoleController extends Controller
 
     public function role_config(Role $role)
     {
-    	$menu_list = DB::select("SELECT a.*, b.role_id FROM menus a LEFT JOIN menu_role b ON a.id=b.menu_id AND b.role_id=?", [$role->id]);
+    	//$menu_list = DB::select("SELECT a.*, b.role_id FROM menus a LEFT JOIN menu_role b ON a.id=b.menu_id AND b.role_id=?", [$role->id]);
+    	$menu_list = DB::select("SELECT a.id, a.title, a.menu_url, a.menu_icon, a.description, a.menu_order, a.parent_menu, b.role_id, c.title as parent_menu_title FROM menus a LEFT JOIN menu_role b ON a.id=b.menu_id AND b.role_id=? LEFT JOIN menus c ON a.parent_menu=c.id", [$role->id]);
         $perm_list = DB::select("SELECT a.*, b.role_id FROM permissions a LEFT JOIN permission_role b ON a.id=b.permission_id AND b.role_id=?", [$role->id]);
         $data = [
             'role_data' => $role,
@@ -91,10 +93,13 @@ class RoleController extends Controller
 
             if($menus) {
                 foreach ($menus as $menu) {
-                    $ins = DB::table('menu_role')->insert([
-                        'menu_id' => $menu,
-                        'role_id' => $role->id
-                    ]);
+                    $menu_val = Menu::find($menu);
+                    if(!$menu_val->parent_menu || in_array($menu_val->parent_menu, $menus)) {
+                        $ins = DB::table('menu_role')->insert([
+                            'menu_id' => $menu,
+                            'role_id' => $role->id
+                        ]);
+                    }                    
                 }
             }
         });

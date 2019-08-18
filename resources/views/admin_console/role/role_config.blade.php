@@ -110,7 +110,7 @@
                         <select class="form-control" multiple="multiple" id="group_menu_list" name="group_menu_list[]">
                             @foreach($menu_list as $menu)
                                 <option value="{{ $menu->id }}" style="{{ !$menu->parent_menu ? 'border-left: 2px solid #e67e22' : '' }};" 
-                                    {{ $menu->role_id == $role_data->id ? 'selected' : '' }}>{{ $menu->title }}</option>
+                                    {{ $menu->role_id == $role_data->id ? 'selected' : '' }}>{{ $menu->title }} {{ $menu->parent_menu_title ? '('.$menu->parent_menu_title.')' : '' }}</option>
                             @endforeach
                         </select>
 
