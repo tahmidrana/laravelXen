@@ -60,19 +60,46 @@ class LoginController extends Controller
         if(Auth::attempt(['userid' => $username, 'password' => $password, 'status'=>1])) {
             $user = User::find(Auth::user()->id);
             $user->last_login = date('Y-m-d H:i:s');
-            $user->save();
+            //$user->save();
 
-            /*$user_data = [
+            $user_menus = $this->getUserMenus($user);
+
+            $user_data = [
                 'name' => Auth::user()->first_name.' '.Auth::user()->last_name,
                 'user_id' => Auth::user()->id, 
-                'username' => Auth::user()->username 
-            ];*/
+                'username' => Auth::user()->username,
+                'user_menus' => $user_menus
+            ];
+            session(['user_data' => $user_data]);
 
             $resp['accessGranted'] = true;
         } else {
             $resp['errors'] = '<strong>Invalid login!</strong><br />Please enter valid userid and password.<br />';
         }
         echo json_encode($resp);
+    }
+
+    public function getUserMenus($user)
+    {
+        $role = $user->role_id;
+        $menus = '';
+        if($user->is_superuser) {
+            //$menus = Menu::orderBy('menu_order')->get();
+            $menus = DB::select("SELECT a.*, COUNT(c.id) as sub_menu_count
+            FROM menus a
+            LEFT JOIN menus c on c.parent_menu=a.id
+            GROUP BY a.id
+            ORDER BY menu_order");
+        } else {
+            $menus = DB::select("SELECT a.*, COUNT(c.id) as sub_menu_count
+            FROM menus a
+            INNER JOIN menu_role b on a.id=b.menu_id
+            LEFT JOIN menus c on c.parent_menu=a.id
+            WHERE b.role_id=?
+            GROUP BY a.id
+            ORDER BY menu_order", [$role]);
+        }
+        return $menus;
     }
 
     public function logout(Request $request)
