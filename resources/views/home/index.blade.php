@@ -30,6 +30,7 @@ Dashboard
     </div>
     <?php
         $user = Auth::user();
+        //echo $user->hasPermissionTo('blog.update_blog') ? 'Yes' : 'No';
         //dd($user);
         //dd($user);
         //echo $user->role->name;

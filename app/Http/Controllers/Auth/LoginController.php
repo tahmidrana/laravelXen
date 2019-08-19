@@ -60,19 +60,64 @@ class LoginController extends Controller
         if(Auth::attempt(['userid' => $username, 'password' => $password, 'status'=>1])) {
             $user = User::find(Auth::user()->id);
             $user->last_login = date('Y-m-d H:i:s');
-            $user->save();
+            //$user->save();
 
-            /*$user_data = [
+            $user_menus = $this->getUserMenus($user);
+            $user_permissions = $this->getUserPermissions($user);
+
+            $user_data = [
                 'name' => Auth::user()->first_name.' '.Auth::user()->last_name,
                 'user_id' => Auth::user()->id, 
-                'username' => Auth::user()->username 
-            ];*/
+                'username' => Auth::user()->username,
+                'user_menus' => $user_menus,
+                'user_perms' => $user_permissions
+            ];
+            session(['user_data' => $user_data]);
 
             $resp['accessGranted'] = true;
         } else {
             $resp['errors'] = '<strong>Invalid login!</strong><br />Please enter valid userid and password.<br />';
         }
         echo json_encode($resp);
+    }
+
+    public function getUserMenus($user)
+    {
+        $role = $user->role_id;
+        $menus = '';
+        if($user->is_superuser) {
+            //$menus = Menu::orderBy('menu_order')->get();
+            $menus = DB::select("SELECT a.id, a.title, a.menu_url, a.menu_icon, a.description, a.menu_order, a.parent_menu, COUNT(c.id) as sub_menu_count
+            FROM menus a
+            LEFT JOIN menus c on c.parent_menu=a.id
+            GROUP BY a.id
+            ORDER BY menu_order");
+        } else {
+            $menus = DB::select("SELECT a.id, a.title, a.menu_url, a.menu_icon, a.description, a.menu_order, a.parent_menu, COUNT(c.id) as sub_menu_count
+            FROM menus a
+            INNER JOIN menu_role b on a.id=b.menu_id
+            LEFT JOIN menus c on c.parent_menu=a.id
+            WHERE b.role_id=?
+            GROUP BY a.id
+            ORDER BY menu_order", [$role]);
+        }
+        return $menus;
+    }
+
+    public function getUserPermissions($user)
+    {
+        $role = $user->role_id;
+        $permissions = '';
+        if($user->is_superuser) {
+            //$menus = Menu::orderBy('menu_order')->get();
+            $permissions = DB::select("SELECT a.id, a.name, a.slug, a.description FROM permissions a");
+        } else {
+            $permissions = DB::select("SELECT a.id, a.name, a.slug, a.description
+            FROM permissions a
+            INNER JOIN permission_role b on a.id=b.permission_id
+            WHERE b.role_id", [$role]);
+        }
+        return $permissions;
     }
 
     public function logout(Request $request)

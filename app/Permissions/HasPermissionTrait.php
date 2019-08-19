@@ -17,7 +17,10 @@ trait HasPermissionTrait {
 		return $this->role->slug === 'admin';
 	}
 
-	public function hasPermissionTo($permission)
+	/*
+	** Role Permission Check
+	*/ 
+	public function hasPermissionToNormal($permission)
 	{
 		$user_permissions = $this->role->permissions;
 		if($user_permissions->count()) {
@@ -29,5 +32,19 @@ trait HasPermissionTrait {
 			return FALSE;			
 		}
 		return FALSE;
+	}
+
+	/*
+	** Role Permission Check (Session based)
+	*/ 
+	public function hasPermissionTo($permission)
+	{
+		$user_permissions = session('user_data')['user_perms'];
+		foreach($user_permissions as $row) {
+			if(strtolower($row->name) == strtolower($permission) || strtolower($row->slug) == strtolower($permission)) {
+				return TRUE;
+			}
+		}
+		return FALSE;		
 	}
 }

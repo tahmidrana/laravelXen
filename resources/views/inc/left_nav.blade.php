@@ -38,13 +38,7 @@
         </header>
 
         <?php 
-            $role = Auth::user()->role;
-            //$menus = '';
-            if($role) {
-                $menus = $role->menus()->orderBy('menu_order')->get();
-            } else {
-                $menus = \App\Models\Menu::orderBy('menu_order')->get();
-            }
+            $menus = session('user_data')['user_menus'];
         ?>
         
         <ul id="main-menu" class="main-menu">
@@ -55,7 +49,7 @@
                     <i class="{{ $menu->menu_icon }}"></i>
                     <span class="title">{{ $menu->title }}</span>
                 </a>
-                @if($menu->child_menus->count())
+                @if($menu->sub_menu_count)
                 <ul>
                     @foreach($menus as $sub1)
                         @if($sub1->parent_menu && $sub1->parent_menu == $menu->id)
