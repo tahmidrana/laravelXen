@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/xenon-core.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/xenon-forms.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/xenon-components.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/css/xenon-skins.css') }}">
+    <!-- <link rel="stylesheet" href="{{ asset('assets/css/xenon-skins.css') }}"> -->
     <link rel="stylesheet" href="{{ asset('assets/js/multiselect/css/multi-select.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
 
@@ -146,8 +146,8 @@
 
     <!-- Imported scripts on this page -->
     <script src="{{ asset('assets/js/xenon-widgets.js') }}"></script>
-    <script src="{{ asset('assets/js/devexpress-web-14.1/js/globalize.min.js') }}"></script>
-    <script src="{{ asset('assets/js/devexpress-web-14.1/js/dx.chartjs.js') }}"></script>
+    <!-- <script src="{{ asset('assets/js/devexpress-web-14.1/js/globalize.min.js') }}"></script>
+    <script src="{{ asset('assets/js/devexpress-web-14.1/js/dx.chartjs.js') }}"></script> -->
     <script src="{{ asset('assets/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery-validate/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/js/multiselect/js/jquery.multi-select.js') }}"></script>
