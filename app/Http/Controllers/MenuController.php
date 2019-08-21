@@ -81,4 +81,14 @@ class MenuController extends Controller
             return redirect("/menu")->with('error', 'Menu Delete Failed');
         }
     }
+
+    public function menu_status_update(Menu $menu, $status)
+    {
+        $menu->is_active = $status;
+        if($menu->save()) {
+            return redirect('/menu')->with('success', 'Menu Status Updated Successfully');
+        } else {
+            return redirect('/menu')->with('error', 'Menu Status Updated Failed');
+        }
+    }
 }

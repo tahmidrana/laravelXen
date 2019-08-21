@@ -98,6 +98,7 @@ class LoginController extends Controller
             INNER JOIN menu_role b on a.id=b.menu_id
             LEFT JOIN menus c on c.parent_menu=a.id
             WHERE b.role_id=?
+            && a.is_active=1
             GROUP BY a.id
             ORDER BY menu_order", [$role]);
         }

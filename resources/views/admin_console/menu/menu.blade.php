@@ -44,8 +44,16 @@
                     <td style="{{ !$menu->parent_menu ? 'border-left:4px solid #e67e22' : '' }};">{{ $menu->title }}</td>
                     <td>{{ $menu->menu_url ? $menu->menu_url : 'N/A' }}</td>
                     <td>{{ $menu->parent_menu ? $menu->parent_menu_title : 'N/A' }}</td>
-                    <td><a href="javascript:;" onclick="jQuery('#update_menu_{{ $menu->id }}').modal('show', {backdrop: 'fade'});" class="btn btn-blue btn-sm btn-icon">Edit</a> <a href="javascript:;" class="btn btn-red btn-sm btn-icon" onclick="$(this).find('#del_form').submit();">Delete <form id="del_form" action="{{ url('menu/'.$menu->id) }}" method="POST" onsubmit="return confirm_menu_delete()">@method('DELETE')
-                        @csrf</form></a> </td>
+                    <td>
+                    <a href="javascript:;" onclick="jQuery('#update_menu_{{ $menu->id }}').modal('show', {backdrop: 'fade'});" class="btn btn-blue btn-sm btn-icon">Edit</a> 
+                    <a href="javascript:;" class="btn btn-red btn-sm btn-icon" onclick="$(this).find('#del_form').submit();">Delete <form id="del_form" action="{{ url('menu/'.$menu->id) }}" method="POST" onsubmit="return confirm_menu_delete()">@method('DELETE')
+                        @csrf</form></a>
+                    @if($menu->is_active)
+                    <a href="{{ url('menu/menu_status_update/'.$menu->id.'/0') }}" title="Deactive" class="btn btn-success btn-sm btn-icon">Active</a>
+                    @else
+                    <a href="{{ url('menu/menu_status_update/'.$menu->id.'/1') }}" title="Activate" class="btn btn-warning btn-sm btn-icon">Inactive</a>
+                    @endif
+                    </td>
                 </tr>
 
                 <div class="modal fade" id="update_menu_{{ $menu->id }}">

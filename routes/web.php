@@ -10,6 +10,7 @@ Route::group(['middleware'=> 'auth'], function(){
 
 	//Menu
 	Route::resource('/menu', 'MenuController');
+	Route::get('/menu/menu_status_update/{menu}/{status}', 'MenuController@menu_status_update');
 
 	//Role
 	Route::resource('/role', 'RoleController');
