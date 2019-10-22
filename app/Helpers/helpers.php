@@ -3,6 +3,7 @@
 
 namespace App\Helpers;
 use Request;
+use Illuminate\Support\Str;
 use App\Models\ActivityLog as ActivityLogModel;
 
 class Helpers
@@ -25,5 +26,19 @@ class Helpers
         return '/'.$current_menu_level[0] == $route ? 'class=active':'';
     }
 
-
+    /*
+    * $type: main, sub
+    */
+    public static function activateNav($type, $menu)
+    {
+        if($type == 'main') {
+            return Request::is(Str::kebab($menu).'/*') ? 'active opened' : '';
+        } elseif($type == 'sub') {
+            $path = Request::path();
+            $path_array = explode('/', $path);
+            return in_array(Str::kebab($menu), $path_array) ? 'active' : '';
+        } else {
+            return;
+        }
+    }
 }

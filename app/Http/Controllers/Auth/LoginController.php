@@ -87,16 +87,18 @@ class LoginController extends Controller
         $menus = '';
         if($user->is_superuser) {
             //$menus = Menu::orderBy('menu_order')->get();
-            $menus = DB::select("SELECT a.id, a.title, a.menu_url, a.menu_icon, a.description, a.menu_order, a.parent_menu, COUNT(c.id) as sub_menu_count
+            $menus = DB::select("SELECT a.id, a.title, a.menu_url, a.menu_icon, a.description, a.menu_order, a.parent_menu, c.title as parent_menu_title, COUNT(d.id) as sub_menu_count
             FROM menus a
-            LEFT JOIN menus c on c.parent_menu=a.id
+            LEFT JOIN menus c on a.parent_menu=c.id
+            LEFT JOIN menus d ON d.parent_menu=a.id
             GROUP BY a.id
             ORDER BY menu_order");
         } else {
-            $menus = DB::select("SELECT a.id, a.title, a.menu_url, a.menu_icon, a.description, a.menu_order, a.parent_menu, COUNT(c.id) as sub_menu_count
+            $menus = DB::select("SELECT a.id, a.title, a.menu_url, a.menu_icon, a.description, a.menu_order, a.parent_menu, c.title as parent_menu_title, COUNT(d.id) as sub_menu_count
             FROM menus a
             INNER JOIN menu_role b on a.id=b.menu_id
-            LEFT JOIN menus c on c.parent_menu=a.id
+            LEFT JOIN menus c on a.parent_menu=c.id
+            LEFT JOIN menus d ON d.parent_menu=a.id
             WHERE b.role_id=?
             && a.is_active=1
             GROUP BY a.id

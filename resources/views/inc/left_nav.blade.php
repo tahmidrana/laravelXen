@@ -44,7 +44,7 @@
         <ul id="main-menu" class="main-menu">
         @foreach($menus as $menu)
             @if(!$menu->parent_menu)
-            <li class="{{ isset($main_menu) && strtolower($main_menu) == strtolower($menu->title) ? 'active opened' : '' }}">
+            <li class="{{ Helpers::activateNav('main', $menu->title) }}">
                 <a href="{{ $menu->menu_url ? url($menu->menu_url) : '#' }}">
                     <i class="{{ $menu->menu_icon }}"></i>
                     <span class="title">{{ $menu->title }}</span>
@@ -53,13 +53,7 @@
                 <ul>
                     @foreach($menus as $sub1)
                         @if($sub1->parent_menu && $sub1->parent_menu == $menu->id)
-                        {{--<li class="{{ strtolower($sub1->title) == strtolower(session('sub_menu')) ? 'active' : '' }}">
-                            <a href="{{ $sub1->menu_url }}">
-                                <span class="title">{{ $sub1->title }}</span>
-                            </a>
-                        </li>--}}
-
-                        <li {{ Helpers::is_current_route(Request::path(),$sub1->menu_url) }} >
+                        <li class="{{ Helpers::activateNav('sub', $sub1->title) }}" >
                             <a href="{{ $sub1->menu_url ? url($sub1->menu_url) : '#' }}">
                                 <span class="title">{{ $sub1->title }}</span>
                             </a>

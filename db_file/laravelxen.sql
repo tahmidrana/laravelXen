@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 21, 2019 at 10:49 AM
+-- Generation Time: Oct 22, 2019 at 11:42 AM
 -- Server version: 5.7.27-0ubuntu0.18.04.1
 -- PHP Version: 7.2.19-0ubuntu0.18.04.2
 
@@ -72,11 +72,11 @@ CREATE TABLE `menus` (
 INSERT INTO `menus` (`id`, `title`, `menu_url`, `menu_icon`, `description`, `menu_order`, `parent_menu`, `is_active`, `created_at`, `updated_at`) VALUES
 (1, 'Home', '/', 'fa-home', 'Home menu', 1, NULL, 1, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
 (2, 'Admin Console', NULL, 'fa-cog', 'admin console related all menu', 30, NULL, 1, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
-(3, 'Menu', '/menu', NULL, NULL, 1, 2, 1, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
-(4, 'Role', '/role', NULL, NULL, 3, 2, 1, '2019-06-30 18:00:00', '2019-07-04 23:49:27'),
-(5, 'Permission', '/permission', NULL, NULL, 2, 2, 1, '2019-06-30 18:00:00', '2019-07-04 23:49:18'),
+(3, 'Menu', 'admin-console/menu', NULL, NULL, 1, 2, 1, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
+(4, 'Role', 'admin-console/role', NULL, NULL, 3, 2, 1, '2019-06-30 18:00:00', '2019-07-04 23:49:27'),
+(5, 'Permission', 'admin-console/permission', NULL, NULL, 2, 2, 1, '2019-06-30 18:00:00', '2019-07-04 23:49:18'),
 (6, 'User', '/user', NULL, NULL, 4, 2, 1, '2019-06-30 18:00:00', '2019-06-30 18:00:00'),
-(7, 'Blog', NULL, 'fa-book', NULL, 2, NULL, 1, '2019-07-14 04:15:10', '2019-08-21 04:48:37'),
+(7, 'Blog', NULL, 'fa-book', NULL, 2, NULL, 0, '2019-07-14 04:15:10', '2019-08-21 04:58:03'),
 (8, 'New', NULL, NULL, NULL, 1, 7, 1, '2019-07-14 04:15:27', '2019-07-14 04:15:27'),
 (9, 'Manage', NULL, NULL, NULL, 2, 7, 1, '2019-07-14 04:47:46', '2019-07-14 04:47:46'),
 (10, 'Category', NULL, 'fa-cog', NULL, 3, NULL, 1, '2019-08-04 04:53:41', '2019-08-21 04:48:06'),
