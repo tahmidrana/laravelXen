@@ -12,13 +12,10 @@ class PermissionController extends Controller
     public function __construct() 
     {
         $this->middleware('is_superuser');
-        View::share('main_menu', 'admin console');
     }
 
     public function index()
     {
-        //session(['main_menu' => 'admin console', 'sub_menu' => 'menu']);
-        //$menu_list = Menu::with('main_menu')->orderBy('id', 'desc')->get();
         $permission_list = Permission::all();
         return view('admin_console.permission.permission', ['permissions'=> $permission_list]);
     }
@@ -36,9 +33,9 @@ class PermissionController extends Controller
         $permission->description = $request->description;
 
         if($permission->save()) {
-            return redirect('/permission')->with('success', 'Permission Saved Successfully');
+            return redirect()->back()->with('success', 'Permission Saved Successfully');
         } else {
-            return redirect('/permission')->with('error', 'Permission Save Failed');
+            return redirect()->back()->with('error', 'Permission Save Failed');
         }
     }
 
@@ -54,18 +51,18 @@ class PermissionController extends Controller
         $permission->description = $request->description;
 
         if($permission->save()) {
-            return redirect('/permission')->with('success', 'Permission Updated Successfully');
+            return redirect()->back()->with('success', 'Permission Updated Successfully');
         } else {
-            return redirect('/permission')->with('error', 'Permission Update Failed');
+            return redirect()->back()->with('error', 'Permission Update Failed');
         }
     }
 
     public function destroy(Permission $permission)
     {
         if($permission->delete()) {
-            return redirect('/permission')->with('success', 'Permission Deleted Successfully');
+            return redirect()->back()->with('success', 'Permission Deleted Successfully');
         } else {
-            return redirect("/permission")->with('error', 'Permission Delete Failed');
+            return redirect()->back()->with('error', 'Permission Delete Failed');
         }
     }
 }
