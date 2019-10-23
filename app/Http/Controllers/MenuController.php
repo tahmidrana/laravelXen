@@ -43,9 +43,9 @@ class MenuController extends Controller
         $menu->description = $request->description;
 
         if($menu->save()) {
-            return redirect('/menu')->with('success', 'Menu Saved Successfully');
+            return redirect()->back()->with('success', 'Menu Saved Successfully');
         } else {
-            return redirect('/menu')->with('error', 'Menu Save Failed');
+            return redirect()->back()->with('error', 'Menu Save Failed');
         }
     }
 
@@ -67,9 +67,9 @@ class MenuController extends Controller
 
         if($menu->save()) {
             Helpers::addToLog('update_menu',json_encode(array('id'=>$menu->getAttribute('id'))));
-            return redirect('/menu')->with('success', 'Menu Updated Successfully');
+            return redirect()->back()->with('success', 'Menu Updated Successfully');
         } else {
-            return redirect('/menu')->with('error', 'Menu Updated Failed');
+            return redirect()->back()->with('error', 'Menu Updated Failed');
         }
     }
 
@@ -86,9 +86,9 @@ class MenuController extends Controller
     {
         $menu->is_active = $status;
         if($menu->save()) {
-            return redirect('/menu')->with('success', 'Menu Status Updated Successfully');
+            return redirect()->back()->with('success', 'Menu Status Updated Successfully');
         } else {
-            return redirect('/menu')->with('error', 'Menu Status Updated Failed');
+            return redirect()->back()->with('error', 'Menu Status Updated Failed');
         }
     }
 }

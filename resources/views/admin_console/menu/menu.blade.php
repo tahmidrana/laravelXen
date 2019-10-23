@@ -49,9 +49,9 @@
                     <a href="javascript:;" class="btn btn-red btn-sm btn-icon" onclick="$(this).find('#del_form').submit();">Delete <form id="del_form" action="{{ url('menu/'.$menu->id) }}" method="POST" onsubmit="return confirm_menu_delete()">@method('DELETE')
                         @csrf</form></a>
                     @if($menu->is_active)
-                    <a href="{{ url('menu/menu_status_update/'.$menu->id.'/0') }}" title="Deactive" class="btn btn-success btn-sm btn-icon">Active</a>
+                    <a href="{{ url('admin-console/menu/menu_status_update/'.$menu->id.'/0') }}" title="Deactive" class="btn btn-success btn-sm btn-icon">Active</a>
                     @else
-                    <a href="{{ url('menu/menu_status_update/'.$menu->id.'/1') }}" title="Activate" class="btn btn-warning btn-sm btn-icon">Inactive</a>
+                    <a href="{{ url('admin-console/menu/menu_status_update/'.$menu->id.'/1') }}" title="Activate" class="btn btn-warning btn-sm btn-icon">Inactive</a>
                     @endif
                     </td>
                 </tr>
@@ -59,7 +59,7 @@
                 <div class="modal fade" id="update_menu_{{ $menu->id }}">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form action="{{ url('menu/'.$menu->id) }}" method="POST" class="validate" role="form">
+                            <form action="{{ route('menu.update', ['id'=>$menu->id]) }}" method="POST" class="validate" role="form">
                                 @method('PUT')
                                 @csrf
                                 <div class="modal-header">
@@ -119,7 +119,7 @@
     <div class="modal fade" id="add_menu">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ url('menu') }}" method="POST" class="validate" role="form" id="form1">
+                <form action="{{ route('menu.store') }}" method="POST" class="validate" role="form" id="form1">
                     @csrf
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
