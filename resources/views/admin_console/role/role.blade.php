@@ -42,14 +42,14 @@
                 <tr>
                     <td hidden="true">{{ $role->id }}</td>
                     <td>{{ $role->name }}</td>
-                    <td><a href="javascript:;" onclick="jQuery('#update_role_{{ $role->id }}').modal('show', {backdrop: 'fade'});" class="btn btn-blue btn-sm btn-icon">Edit</a> <a href="javascript:;" class="btn btn-red btn-sm btn-icon" onclick="$(this).find('#del_form').submit();">Delete <form id="del_form" action="{{ url('role/'.$role->id) }}" method="POST" onsubmit="return confirm_delete()">@method('DELETE')
-                        @csrf</form></a> <a href='{{ url("role/{$role->id}/config") }}' class="btn btn-warning btn-sm btn-icon">Config</a></td>
+                    <td><a href="javascript:;" onclick="jQuery('#update_role_{{ $role->id }}').modal('show', {backdrop: 'fade'});" class="btn btn-blue btn-sm btn-icon">Edit</a> <a href="javascript:;" class="btn btn-red btn-sm btn-icon" onclick="$(this).find('#del_form').submit();">Delete <form id="del_form" action="{{ route('role.destroy', ['id'=>$role->id]) }}" method="POST" onsubmit="return confirm_delete()">@method('DELETE')
+                        @csrf</form></a> <a href='{{ url("admin-console/role/{$role->id}/config") }}' class="btn btn-warning btn-sm btn-icon">Config</a></td>
                 </tr>
 
                 <div class="modal fade" id="update_role_{{ $role->id }}">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <form action="{{ url('role/'.$role->id) }}" method="POST" class="validate" role="form">
+                            <form action="{{ route('role.update', ['id'=>$role->id]) }}" method="POST" class="validate" role="form">
                                 @method('PUT')
                                 @csrf
                                 <div class="modal-header">
@@ -87,7 +87,7 @@
     <div class="modal fade" id="add_role">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ url('role') }}" method="POST" class="validate" role="form" id="form1">
+                <form action="{{ route('role.store') }}" method="POST" class="validate" role="form" id="form1">
                     @csrf
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

@@ -19,7 +19,7 @@
                 <a href="#"><i class="fa-cog"></i>Admin Console</a>
             </li>
             <li>
-                <a href="{{ url('/role') }}">Role</a>
+                <a href="{{ route('role.index') }}">Role</a>
             </li>
             <li class="active">
                 <strong>Role Config</strong>
@@ -46,7 +46,7 @@
 
     </div>
     <div class="panel-body">
-        <form action="{{ url('role/'.$role_data->id) }}" method="POST" role="form" role="form" class="validate">
+        <form action="{{ route('role.update', ['id'=>$role_data->id]) }}" method="POST" role="form" role="form" class="validate">
             @method('PUT')
             @csrf
             <div class="form-group">
@@ -83,7 +83,7 @@
     </div>
     <div class="panel-body">
         <div class="menu-data">
-            <form role="form" class="form-horizontal" action='{{ url("role/{$role_data->id}/update_role_menu/") }}'' method="POST">
+            <form role="form" class="form-horizontal" action='{{ url("admin-console/role/{$role_data->id}/update_role_menu/") }}' method="POST">
                 @csrf
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="tagsinput-1"></label>
@@ -143,7 +143,7 @@
     </div>
     <div class="panel-body">
         <div class="menu-data">
-            <form role="form" class="form-horizontal" action='{{ url("/role/{$role_data->id}/update_role_permission/") }}'' method="POST">
+            <form role="form" class="form-horizontal" action='{{ url("admin-console/role/{$role_data->id}/update_role_permission/") }}'' method="POST">
                 @csrf
                 <div class="form-group">
                     <label class="col-sm-3 control-label" for="tagsinput-1"></label>

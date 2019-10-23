@@ -14,13 +14,10 @@ class RoleController extends Controller
     public function __construct() 
     {
         $this->middleware('is_superuser');
-        View::share('main_menu', 'admin console');
     }
 
     public function index()
     {
-        //session(['main_menu' => 'admin console', 'sub_menu' => 'menu']);
-        //$menu_list = Menu::with('main_menu')->orderBy('id', 'desc')->get();
         $role_list = Role::all();
         return view('admin_console.role.role', ['roles'=> $role_list]);
     }
@@ -38,9 +35,9 @@ class RoleController extends Controller
         $role->description = $request->description;
 
         if($role->save()) {
-            return redirect('role')->with('success', 'Role Saved Successfully');
+            return redirect()->back()->with('success', 'Role Saved Successfully');
         } else {
-            return redirect('role')->with('error', 'Role Save Failed');
+            return redirect()->back()->with('error', 'Role Save Failed');
         }
     }
 
@@ -56,18 +53,18 @@ class RoleController extends Controller
         $role->description = $request->description;
 
         if($role->save()) {
-            return redirect('role')->with('success', 'Role Updated Successfully');
+            return redirect()->back()->with('success', 'Role Updated Successfully');
         } else {
-            return redirect('role')->with('error', 'Role Update Failed');
+            return redirect()->back()->with('error', 'Role Update Failed');
         }
     }
 
     public function destroy(Role $role)
     {
         if($role->delete()) {
-            return redirect('role')->with('success', 'Role Deleted Successfully');
+            return redirect()->back()->with('success', 'Role Deleted Successfully');
         } else {
-            return redirect("role")->with('error', 'Role Delete Failed');
+            return redirect()->back()->with('error', 'Role Delete Failed');
         }
     }
 
@@ -103,7 +100,7 @@ class RoleController extends Controller
                 }
             }
         });
-        return redirect("/role/{$role->id}/config")->with('success', 'Saved Successfully');
+        return redirect()->back()->with('success', 'Saved Successfully');
     }
 
     public function update_role_permission(Request $request, Role $role)
@@ -122,6 +119,6 @@ class RoleController extends Controller
                 }
             }
         });
-        return redirect("/role/{$role->id}/config")->with('success', 'Saved Successfully');
+        return redirect()->back()->with('success', 'Saved Successfully');
     }
 }

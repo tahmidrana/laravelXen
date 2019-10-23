@@ -108,7 +108,8 @@
 												// Redirect after successful login page (when progress bar reaches 100%)
 												if(resp.accessGranted)
 												{
-													window.location.href = '{{ url("/") }}';
+													url = '<?= redirect()->intended("/")->getTargetUrl() ?>'
+													window.location.href = url;
 												}
 											}
 										});
