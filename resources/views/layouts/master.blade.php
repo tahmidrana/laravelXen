@@ -17,8 +17,11 @@
     <link rel="stylesheet" href="{{ asset('assets/css/xenon-core.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/xenon-forms.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/xenon-components.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/select2/select2.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/select2/select2-bootstrap.css') }}">
     <!-- <link rel="stylesheet" href="{{ asset('assets/css/xenon-skins.css') }}"> -->
     <link rel="stylesheet" href="{{ asset('assets/js/multiselect/css/multi-select.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/js/datatables/dataTables.bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}">
 
     <!--  Datatable -->
@@ -57,7 +60,7 @@
 
                     <div class="user-image">
                         <a href="extra-profile.html">
-                            <img src="assets/images/user-2.png" class="img-responsive img-circle" />
+                            <img src="{{ asset('assets/images/user-2.png') }}" class="img-responsive img-circle" />
                         </a>
                     </div>
 
@@ -133,7 +136,11 @@
         <div class="loader-2"></div>
     </div>
 
-
+<?php
+    if(App::environment() !== 'production') {
+        echo '<div id="testflag" style="position: fixed; top: 0px; right: 0px; width: 305px; height: 305px; background: url('. url('assets/images/test-mode.png').') no-repeat 65% 65%; z-index: 10000; pointer-events: none; opacity: 0.2; filter: alpha(opacity=30);"></div>';
+    }
+?>
 
 <!-- Bottom Scripts -->
     <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
@@ -142,6 +149,7 @@
     <script src="{{ asset('assets/js/joinable.js') }}"></script>
     <script src="{{ asset('assets/js/xenon-api.js') }}"></script>
     <script src="{{ asset('assets/js/xenon-toggles.js') }}"></script>
+    <script src="{{ asset('assets/js/datatables/js/jquery.dataTables.min.js') }}"></script>
 
 
     <!-- Imported scripts on this page -->
@@ -151,13 +159,22 @@
     <script src="{{ asset('assets/js/toastr/toastr.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery-validate/jquery.validate.min.js') }}"></script>
     <script src="{{ asset('assets/js/multiselect/js/jquery.multi-select.js') }}"></script>
-
-    <!-- Datatable -->
-    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
-
+    <script src="{{ asset('assets/js/select2/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/js/selectboxit/jquery.selectBoxIt.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datepicker/bootstrap-datepicker.js') }}"></script>
 
     <!-- JavaScripts initializations and stuff -->
     <script src="{{ asset('assets/js/xenon-custom.js') }}"></script>
+
+    <script src="{{ asset('assets/js/jquery-ui/jquery-ui.min.js') }}"></script>
+    <script src="{{ asset('assets/js/formwizard/jquery.bootstrap.wizard.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatables/dataTables.bootstrap.js') }}"></script>
+    <script src="{{ asset('assets/js/datatables/yadcf/jquery.dataTables.yadcf.js') }}"></script>
+    <script src="{{ asset('assets/js/datatables/tabletools/dataTables.tableTools.min.js') }}"></script>
+    <script src="{{ asset('assets/js/rwd-table/js/rwd-table.min.js') }}"></script>
+
+
+    
 
     @yield('scripts')
 </body>
